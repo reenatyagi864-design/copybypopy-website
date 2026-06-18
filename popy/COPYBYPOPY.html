@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COPY BY POPY | Premium Clothing Store</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #fcfbf7;
+            color: #222;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: #111;
+            color: #fff;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #dfb76c;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #dfb76c;
+        }
+
+        /* Hero Banner Section */
+        .hero {
+            background-color: #1b1b1b;
+            color: #fff;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #aaa;
+            font-size: 18px;
+        }
+
+        /* Product Section */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #dfb76c;
+            margin: 10px auto 0;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .placeholder-box {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-price {
+            font-size: 18px;
+            color: #111;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #dfb76c;
+            color: #111;
+        }
+
+        /* Slide-out Shopping Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Hidden by default */
+            width: 400px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 2000;
+            transition: right 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .close-cart {
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .close-cart:hover {
+            color: #111;
+        }
+
+        .cart-items-container {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .cart-item-details h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-details p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .cart-footer {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            background-color: #dfb76c;
+            color: #111;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #111;
+            color: #fff;
+        }
+
+        /* Overlay background when cart is open */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+        }
+
+        .cart-overlay.show {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111;
+            color: #777;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">COPY BY POPY</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#" id="cart-link">Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <h1>DESIGN YOUR DIGITAL WORLD</h1>
+        <p>Premium Summer Drop | 10 Exclusive Styles</p>
+    </section>
+
+    <!-- Main Storefront Container -->
+    <div class="container">
+        <h2 class="section-title">Our Collection</h2>
+        
+        <div class="product-grid">
+
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image"><img src="Capture.PNG" alt="Product 1"></div>
+                <div class="product-info">
+                    <div class="product-title">Luxury Monogram Polo</div>
+                    <div class="product-price">₹799</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Luxury Monogram Polo', 799)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image"><img src="dhs.PNG" alt="Product 2"></div>
+                <div class="product-info">
+                    <div class="product-title">Classic Streetwear Tee</div>
+                    <div class="product-price">₹899</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Classic Streetwear Tee', 899)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image"><img src="fA.PNG" alt="Product 3"></div>
+                <div class="product-info">
+                    <div class="product-title">Premium Knit Top</div>
+                    <div class="product-price">₹699</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Premium Knit Top', 699)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image"><img src="fgf.PNG" alt="Product 4"></div>
+                <div class="product-info">
+                    <div class="product-title">Oversized Drop-Shoulder Tee</div>
+                    <div class="product-price">₹849</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Oversized Drop-Shoulder Tee', 849)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image"><img src="ghjj.PNG" alt="Product 5"></div>
+                <div class="product-info">
+                    <div class="product-title">Vintage Graphic T-Shirt</div>
+                    <div class="product-price">₹1050</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Vintage Graphic T-Shirt', 1050)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image"><img src="gsr.PNG" alt="Product 6"></div>
+                <div class="product-info">
+                    <div class="product-title">Minimalist Cotton Shirt</div>
+                    <div class="product-price">₹1200</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Minimalist Cotton Shirt', 1200)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card">
+                <div class="product-image"><img src="gx.PNG" alt="Product 7"></div>
+                <div class="product-info">
+                    <div class="product-title">Urban Casual Fit</div>
+                    <div class="product-price">₹769</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Urban Casual Fit', 769)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card">
+                <div class="product-image"><img src="gzr.PNG" alt="Product 8"></div>
+                <div class="product-info">
+                    <div class="product-title">Heavyweight Classic Tee</div>
+                    <div class="product-price">₹859</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Heavyweight Classic Tee', 859)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="product-card">
+                <div class="product-image"><img src="srzg.PNG" alt="Product 9"></div>
+                <div class="product-info">
+                    <div class="product-title">Retro Grid Collection</div>
+                    <div class="product-price">₹720</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Retro Grid Collection', 720)">ADD TO CART</button>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="product-card">
+                <div class="product-image"><div class="placeholder-box">[ Image 10 Placeholder ]</div></div>
+                <div class="product-info">
+                    <div class="product-title">Signature Edition Tee</div>
+                    <div class="product-price">₹999</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Signature Edition Tee', 999)">ADD TO CART</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Background Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <!-- Shopping Cart Sidebar Drawer -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <span class="close-cart" id="close-cart">&times;</span>
+        </div>
+        <div class="cart-items-container" id="cart-items">
+            <!-- Dynamic JavaScript items go here -->
+            <p style="text-align: center; color: #aaa; margin-top: 30px;" id="empty-msg">Your cart is currently empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">PROCEED TO CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 COPY BY POPY. All Rights Reserved. Designed by Garv.
+    </footer>
+
+    <!-- Working JavaScript functionality -->
+    <script>
+        let cart = [];
+
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartLink = document.getElementById('cart-link');
+        const closeCart = document.getElementById('close-cart');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const emptyMsg = document.getElementById('empty-msg');
+
+        // Toggle Sidebar Open/Close
+        cartLink.addEventListener('click', (e) => { e.preventDefault(); cartSidebar.classList.add('open'); cartOverlay.classList.add('show'); });
+        closeCart.addEventListener('click', () => { cartSidebar.classList.remove('open'); cartOverlay.classList.remove('show'); });
+        cartOverlay.addEventListener('click', () => { cartSidebar.classList.remove('open'); cartOverlay.classList.remove('show'); });
+
+        // Add Item Function
+        function addToCart(name, price) {
+            // Check if item already in cart
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ name: name, price: price, qty: 1 });
+            }
+            updateCartUI();
+            
+            // Auto open sidebar to show item added
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('show');
+        }
+
+        // Remove Item Function
+        function removeItem(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
+        }
+
+        // Update Interface
+        function updateCartUI() {
+            // Update total badge count
+            let totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCount.textContent = totalItems;
+
+            // Clear container out
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.appendChild(emptyMsg);
+                cartTotalPrice.textContent = '₹0';
+                return;
+            }
+
+            let totalCash = 0;
+
+            cart.forEach(item => {
+                totalCash += (item.price * item.qty);
+
+                const itemRow = document.createElement('div');
+                itemRow.classList.add('cart-item');
+                itemRow.innerHTML = `
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p>₹${item.price} x ${item.qty}</p>
+                    </div>
+                    <button class="remove-btn" onclick="removeItem('${item.name}')">Remove</button>
+                `;
+                cartItemsContainer.appendChild(itemRow);
+            });
+
+            cartTotalPrice.textContent = '₹' + totalCash.toLocaleString('en-IN');
+        }
+
+        // Checkout Trigger
+        function checkout() {
+            if(cart.length === 0) {
+                alert("Your cart is empty! Add some shirts first.");
+            } else {
+                alert("Thank you for choosing COPY BY POPY! Order simulated successfully.");
+                cart = [];
+                updateCartUI();
+                cartSidebar.classList.remove('open');
+                cartOverlay.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>
